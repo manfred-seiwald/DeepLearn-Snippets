@@ -2,9 +2,6 @@ from typing import List
 import torch
 import torch.nn as nn
 from torch.optim import Adam, SparseAdam, SGD
-import scipy.sparse
-import numpy as np
-import random
 from timeit import timeit
 
 
