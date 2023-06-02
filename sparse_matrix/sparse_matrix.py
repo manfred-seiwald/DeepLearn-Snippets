@@ -2,7 +2,6 @@ from typing import List
 import torch
 import torch.nn as nn
 from torch.optim import Adam, SparseAdam, SGD
-import scipy.sparse
 import numpy as np
 import random
 from timeit import timeit
@@ -69,8 +68,8 @@ def example_02():
     | torch.Linear   | gpu     |  3.10 sec |
     | SparseLinear   | gpu     |  1.17 sec | 
     '''
-    #use = 'cpu'
-    use = 'cuda'
+    use = 'cpu'
+    #use = 'cuda'
     device = torch.device(use)
     num_inputs = 60000
     num_outputs = 4000
