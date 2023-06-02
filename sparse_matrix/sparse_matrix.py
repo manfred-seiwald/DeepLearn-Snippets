@@ -67,8 +67,8 @@ def example_02():
     | torch.Linear   | gpu     |  3.10 sec |
     | SparseLinear   | gpu     |  1.17 sec | 
     '''
-    #use = 'cpu'
-    use = 'cuda'
+    use = 'cpu'
+    #use = 'cuda'
     device = torch.device(use)
     num_inputs = 60000
     num_outputs = 4000
