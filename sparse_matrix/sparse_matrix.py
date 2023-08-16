@@ -14,11 +14,9 @@ class SparseLinear(nn.Module):
     col_idxs: column indices between in range [0, num_outputs]
     each non empty element of the matrix must be represented as row_index and column_index
     example 
-    [[7, 0, 3], 
-     [0, 6, 0]]
     row_indices = [0, 0, 1]
     col_indices = [0, 2, 1]
-    which means the elements are [0, 0], [0, 2], [1, 1]
+    which means the filled elements of the sparse matrix are [0, 0], [0, 2], [1, 1]
     '''
     def __init__(self, num_inputs, num_outputs, row_idxs: torch.Tensor, col_idxs: torch.Tensor):
         super().__init__()
@@ -49,12 +47,11 @@ class SparseLinear2(nn.Module):
     Implements a Sparse Linear Layer, the matrix multiplication uses a sparse matrix
     num_inputs, num_outputs: This creates a sparse matrix with num_inputs rows and num_outputs columns
     connections: A matrix with 2 columns, where each row represents a connection between input to output
-    each non empty element of the matrix must be represented as row_index and column_index
     example for connections
     [ [0, 0],
       [0, 2],
       [1, 1]]
-    which means the elements of the sparse matrix are [0, 0], [0, 2], [1, 1]
+    which means the filled elements of the sparse matrix are [0, 0], [0, 2], [1, 1]
     '''
     def __init__(self, num_inputs, num_outputs, connections: torch.Tensor):
         super().__init__()
