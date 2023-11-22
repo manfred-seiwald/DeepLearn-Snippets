@@ -22,7 +22,7 @@ class SparseLinear(nn.Module):
         super().__init__()
         self.num_inputs = num_inputs
         self.num_outputs = num_outputs
-        self.index_matrix = torch.stack((row_idxs, col_idxs))
+        self.index_matrix = nn.Parameter(torch.stack((row_idxs, col_idxs)), requires_grad=False)
         weights, bias = self.initializeWeights()
         self.weights = nn.Parameter(weights)
         self.bias = nn.Parameter(bias)
@@ -31,11 +31,6 @@ class SparseLinear(nn.Module):
         weights = torch.rand(self.index_matrix.shape[1], dtype=torch.float32)
         bias = torch.rand((self.num_outputs,1), dtype=torch.float32)
         return weights, bias
-
-    def to(self, device):
-        self.device = device
-        super().to(device)
-        self.index_matrix = self.index_matrix.to(device)
 
     def forward(self, x):
         A = torch.sparse_coo_tensor(self.index_matrix, self.weights, (self.num_inputs, self.num_outputs), dtype=torch.float32)
@@ -61,7 +56,7 @@ class SparseLinear2(nn.Module):
             raise Exception("connections must have 2 columns, but has {connections.shape[1]}")
         self.num_inputs = num_inputs
         self.num_outputs = num_outputs
-        self.index_matrix = connections.T
+        self.index_matrix = nn.Parameter(connections.T, requires_grad=False)
         weights, bias = self.initializeWeights()
         self.weights = nn.Parameter(weights)
         self.bias = nn.Parameter(bias)
@@ -70,11 +65,6 @@ class SparseLinear2(nn.Module):
         weights = torch.rand(self.index_matrix.shape[1], dtype=torch.float32)
         bias = torch.rand((self.num_outputs,1), dtype=torch.float32)
         return weights, bias
-
-    def to(self, device):
-        self.device = device
-        super().to(device)
-        self.index_matrix = self.index_matrix.to(device)
 
     def forward(self, x):
         A = torch.sparse_coo_tensor(self.index_matrix, self.weights, (self.num_inputs, self.num_outputs), dtype=torch.float32)
@@ -136,8 +126,8 @@ def example_SparseLinear2():
     | torch.Linear    | gpu     |  3.10 sec |
     | SparseLinear2   | gpu     |  1.17 sec | 
     '''
-    use = 'cpu'
-    #use = 'cuda'
+    #use = 'cpu'
+    use = 'cuda'
     device = torch.device(use)
     num_inputs = 60000
     num_outputs = 4000
